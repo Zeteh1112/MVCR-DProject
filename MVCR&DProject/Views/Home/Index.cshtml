@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .ui-autocomplete {
+        max-height: 500px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $("#autocomplete").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: '@Url.Action("Autocomplete", "Home")',
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                   /* alert (data) ;*/
+                    success: function (data) {
+                        console.log(data); // For debugging
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-2">
+        <h4>Auto Complete</h4>
+    </div>    
+    <div class="col-8">
+        <input id="autocomplete" type="text" placeholder="Enter Two Words" />
+    </div>
+</div>
